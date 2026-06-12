@@ -35,7 +35,7 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
           }`}
         >
           {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-pitch-500/10 border border-pitch-500/25 mb-7">
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-pitch-500/10 border border-pitch-500/25 mb-8">
             <span className="relative flex w-2 h-2">
               <span className="absolute inline-flex w-full h-full rounded-full bg-pitch-400 opacity-75 animate-ping" />
               <span className="relative inline-flex w-2 h-2 rounded-full bg-pitch-400" />
@@ -45,13 +45,13 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
             </span>
           </div>
 
-          {/* Title with floating ball */}
-          <div className="relative inline-block">
-            <div className="absolute -top-6 -right-8 md:-right-16 anim-float-slow opacity-90 pointer-events-none">
-              <BallIcon size={64} variant="full" />
+          {/* Title with floating ball (contained) */}
+          <div className="relative max-w-3xl mx-auto">
+            <div className="hidden md:block absolute -top-2 right-0 lg:-right-4 anim-float-slow pointer-events-none">
+              <BallIcon size={56} variant="full" />
             </div>
 
-            <h1 className="text-display text-balance">
+            <h1 className="text-display text-balance relative">
               <span className="block text-cream-50">{t.hero.title1}</span>
               <span className="block bg-gradient-to-br from-pitch-300 via-pitch-400 to-pitch-600 bg-clip-text text-transparent">
                 {t.hero.title2}
@@ -59,7 +59,7 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
             </h1>
           </div>
 
-          <p className="text-lg md:text-xl text-cream-100/70 mt-6 mb-2 font-light max-w-xl mx-auto text-balance">
+          <p className="text-lg md:text-xl text-cream-100/70 mt-7 mb-2 font-light max-w-xl mx-auto text-balance">
             {t.hero.subtitle}
           </p>
           <p className="text-sm text-pitch-300/80 font-medium tracking-wide">
@@ -102,23 +102,23 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
             <p className="text-xs text-cream-100/40">{t.hero.ctaCalendarHint}</p>
           </div>
 
-          {/* Stats */}
+          {/* Stats — equalized heights */}
           <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-3xl mx-auto">
             {STAT_KEYS.map((key, i) => {
               const Icon = STAT_ICONS[i];
               return (
                 <div
                   key={key}
-                  className="surface surface-hover rounded-2xl px-4 py-5 text-center group cursor-default"
+                  className="surface surface-hover rounded-2xl px-4 py-6 text-center group cursor-default flex flex-col items-center justify-center min-h-[140px]"
                   style={{ transitionDelay: `${i * 60}ms` }}
                 >
                   <div className="inline-grid place-items-center w-10 h-10 rounded-xl bg-pitch-500/10 border border-pitch-500/20 mb-3 group-hover:bg-pitch-500/15 transition-colors duration-500">
                     <Icon className="w-5 h-5 text-pitch-300" />
                   </div>
-                  <div className="text-3xl md:text-4xl font-black text-cream-50 tracking-tight">
+                  <div className="text-3xl md:text-4xl font-black text-cream-50 tracking-tight leading-none">
                     {STAT_VALUES[i]}
                   </div>
-                  <div className="text-[11px] uppercase tracking-[0.16em] text-cream-100/50 mt-1 font-semibold">
+                  <div className="text-[11px] uppercase tracking-[0.16em] text-cream-100/50 mt-2 font-semibold">
                     {t.stats[key]}
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
         </div>
 
         {/* Scroll indicator */}
-        <div className="mt-12 flex justify-center anim-fade-in" style={{ animationDelay: '1.2s' }}>
+        <div className="mt-14 flex justify-center anim-fade-in" style={{ animationDelay: '1.2s' }}>
           <button
             onClick={() => document.getElementById('upcoming')?.scrollIntoView({ behavior: 'smooth' })}
             className="flex flex-col items-center gap-1.5 text-cream-100/40 hover:text-pitch-300 transition-colors group"

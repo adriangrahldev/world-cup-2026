@@ -41,17 +41,17 @@ export function UpcomingMatches({ matches, t, locale }: UpcomingMatchesProps) {
                 </div>
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-extrabold text-cream-50 tracking-tight">
+                <h2 className="text-xl md:text-2xl font-extrabold text-cream-50 tracking-tight leading-tight">
                   {t.upcoming.title}
                 </h2>
-                <p className="text-pitch-300/80 text-sm">
+                <p className="text-pitch-300/80 text-sm mt-0.5">
                   {t.upcoming.subtitle.replace('{count}', String(matches.length))}
                 </p>
               </div>
             </div>
           </header>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr">
             {featured.map((m, i) => (
               <MatchCard key={m.id} match={m} index={i} variant="featured" locale={locale} />
             ))}

@@ -11,14 +11,14 @@ interface MatchCardProps {
 }
 
 function getStageInfo(stage: string) {
-  const map: Record<string, { color: string; chip: string; es: string; en: string }> = {
-    group: { color: '#22c55e', chip: 'chip-pitch', es: 'Fase de Grupos', en: 'Group Stage' },
-    round16: { color: '#a855f7', chip: 'chip-rose', es: 'Dieciseisavos', en: 'Round of 32' },
-    round8: { color: '#818cf8', chip: 'chip-sky', es: 'Octavos', en: 'Round of 16' },
-    quarter: { color: '#f59e0b', chip: 'chip-gold', es: 'Cuartos', en: 'Quarter-finals' },
-    semi: { color: '#fb923c', chip: 'chip-flame', es: 'Semifinales', en: 'Semi-finals' },
-    third: { color: '#cd7f32', chip: 'chip-flame', es: 'Tercer Lugar', en: 'Third Place' },
-    final: { color: '#fbbf24', chip: 'chip-gold', es: 'Gran Final', en: 'The Final' },
+  const map: Record<string, { color: string; es: string; en: string }> = {
+    group: { color: '#22c55e', es: 'Fase de Grupos', en: 'Group Stage' },
+    round16: { color: '#a855f7', es: 'Dieciseisavos', en: 'Round of 32' },
+    round8: { color: '#818cf8', es: 'Octavos', en: 'Round of 16' },
+    quarter: { color: '#f59e0b', es: 'Cuartos', en: 'Quarter-finals' },
+    semi: { color: '#fb923c', es: 'Semifinales', en: 'Semi-finals' },
+    third: { color: '#cd7f32', es: 'Tercer Lugar', en: 'Third Place' },
+    final: { color: '#fbbf24', es: 'Gran Final', en: 'The Final' },
   };
   return map[stage] || map.group;
 }
@@ -50,7 +50,6 @@ function Flag({ src, alt, size = 'md' }: { src?: string; alt: string; size?: 'sm
 
 export function MatchCard({ match, index = 0, variant = 'default', locale }: MatchCardProps) {
   const isFeatured = variant === 'featured';
-  const isCompact = variant === 'compact';
   const matchDate = new Date(match.date + 'T00:00:00');
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -63,7 +62,6 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
   const stageInfo = getStageInfo(match.stage || 'group');
   const stageLabel = locale === 'es' ? stageInfo.es : stageInfo.en;
 
-  // Date pill text
   const datePill = isToday
     ? locale === 'es' ? 'HOY' : 'TODAY'
     : isTomorrow
@@ -72,18 +70,16 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
 
   return (
     <article
-      className={`group surface surface-hover rounded-2xl p-4 ${
-        isFeatured ? 'p-5 md:p-6' : ''
-      } ${isPast ? 'opacity-65' : ''} ${isToday ? 'ring-1 ring-pitch-400/40' : ''}`}
-      style={{
-        animationDelay: `${Math.min(index, 12) * 40}ms`,
-      }}
+      className={`group surface surface-hover rounded-2xl p-4 flex flex-col h-full ${
+        isPast ? 'opacity-65' : ''
+      } ${isToday ? 'ring-1 ring-pitch-400/40' : ''}`}
+      style={{ animationDelay: `${Math.min(index, 12) * 40}ms` }}
     >
-      {/* Top row: date + stage */}
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <div className="flex items-center gap-2">
+      {/* Top row */}
+      <div className="flex items-center justify-between gap-2 mb-3 min-h-[24px]">
+        <div className="flex items-center gap-1.5 flex-wrap">
           <span
-            className={`text-[10px] font-bold tracking-[0.14em] px-2 py-1 rounded-md ${
+            className={`text-[10px] font-bold tracking-[0.14em] px-2 py-1 rounded-md whitespace-nowrap ${
               isToday
                 ? 'bg-pitch-500 text-night-950'
                 : isPast
@@ -107,38 +103,42 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1 text-cream-100/60">
+        <div className="flex items-center gap-1 text-cream-100/60 flex-shrink-0">
           <Clock className="w-3.5 h-3.5" />
           <span className="text-xs font-semibold tabular-nums">{formatTime(match.time, locale)}</span>
         </div>
       </div>
 
-      {/* Teams */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex-1 flex flex-col items-center text-center">
+      {/* Teams — equal columns, names always 2 lines min */}
+      <div className="flex items-center gap-2 flex-1">
+        <div className="flex-1 min-w-0 flex flex-col items-center text-center gap-2">
           <Flag src={match.homeTeamFlag} alt={match.homeTeam} size={isFeatured ? 'lg' : 'md'} />
-          <span className={`mt-2 font-semibold text-cream-50 leading-tight line-clamp-2 ${isFeatured ? 'text-base' : isCompact ? 'text-xs' : 'text-sm'}`}>
+          <span className={`font-semibold text-cream-50 leading-tight line-clamp-2 min-h-[2.5rem] flex items-center ${
+            isFeatured ? 'text-base' : 'text-sm'
+          }`}>
             {match.homeTeam}
           </span>
         </div>
 
-        <div className="flex flex-col items-center px-1">
+        <div className="flex flex-col items-center px-1 flex-shrink-0">
           <div className={`grid place-items-center rounded-xl bg-white/5 border border-white/5 ${isFeatured ? 'w-12 h-12' : 'w-10 h-10'}`}>
             <span className="text-pitch-300 font-black text-sm tracking-wider">VS</span>
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-center text-center">
+        <div className="flex-1 min-w-0 flex flex-col items-center text-center gap-2">
           <Flag src={match.awayTeamFlag} alt={match.awayTeam} size={isFeatured ? 'lg' : 'md'} />
-          <span className={`mt-2 font-semibold text-cream-50 leading-tight line-clamp-2 ${isFeatured ? 'text-base' : isCompact ? 'text-xs' : 'text-sm'}`}>
+          <span className={`font-semibold text-cream-50 leading-tight line-clamp-2 min-h-[2.5rem] flex items-center ${
+            isFeatured ? 'text-base' : 'text-sm'
+          }`}>
             {match.awayTeam}
           </span>
         </div>
       </div>
 
-      {/* Bottom: venue */}
+      {/* Bottom */}
       <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2 text-cream-100/55">
-        <div className="flex items-center gap-1.5 min-w-0">
+        <div className="flex items-center gap-1.5 min-w-0 flex-1">
           <MapPin className="w-3.5 h-3.5 text-pitch-300/80 flex-shrink-0" />
           <span className="text-xs truncate">{match.venue}</span>
         </div>

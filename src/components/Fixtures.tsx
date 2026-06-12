@@ -91,7 +91,7 @@ export function Fixtures({ matches, groups, t, locale }: FixturesProps) {
             </p>
           </div>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr">
             {visible.map((m, i) => (
               <MatchCard key={m.id} match={m} index={i} variant="default" locale={locale} />
             ))}

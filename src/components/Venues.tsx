@@ -64,11 +64,11 @@ export function Venues({ t, locale }: VenuesProps) {
         </div>
 
         {/* Venues grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr">
           {filtered.map((v, i) => (
             <article
               key={v.name}
-              className="group surface surface-hover rounded-2xl overflow-hidden flex flex-col"
+              className="group surface surface-hover rounded-2xl overflow-hidden flex flex-col h-full"
               style={{ animationDelay: `${Math.min(i, 12) * 30}ms` }}
             >
               <div className="relative h-32 overflow-hidden">

@@ -21,11 +21,11 @@ export function Groups({ t, locale }: GroupsProps) {
           <p className="section-subtitle mt-2">{t.groups.subtitle}</p>
         </header>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr">
           {groupsByLetter.map((g, idx) => (
             <div
               key={g.letter}
-              className="surface surface-hover rounded-2xl p-4"
+              className="surface surface-hover rounded-2xl p-4 flex flex-col h-full"
               style={{ animationDelay: `${idx * 30}ms` }}
             >
               <div className="flex items-center justify-between mb-3">
@@ -45,28 +45,28 @@ export function Groups({ t, locale }: GroupsProps) {
                 </div>
               </div>
 
-              <ul className="space-y-1.5">
+              <ul className="space-y-1.5 flex-1">
                 {g.teams.map((team, i) => {
                   const flag = flagFor(team);
                   return (
                     <li
                       key={team}
-                      className="flex items-center gap-2.5 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] transition-colors duration-300"
+                      className="flex items-center gap-2.5 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] transition-colors duration-300 min-h-[40px]"
                     >
                       {flag ? (
                         <img
                           src={flag}
                           alt={team}
                           loading="lazy"
-                          className="w-7 h-5 rounded object-cover ring-1 ring-white/10"
+                          className="w-7 h-5 rounded object-cover ring-1 ring-white/10 flex-shrink-0"
                         />
                       ) : (
-                        <div className="w-7 h-5 rounded bg-night-700" />
+                        <div className="w-7 h-5 rounded bg-night-700 flex-shrink-0" />
                       )}
-                      <span className="text-sm font-medium text-cream-50 truncate flex-1">
+                      <span className="text-sm font-medium text-cream-50 truncate flex-1" title={team}>
                         {team}
                       </span>
-                      <span className="text-[10px] tabular-nums text-cream-100/35 font-semibold">
+                      <span className="text-[10px] tabular-nums text-cream-100/35 font-semibold flex-shrink-0">
                         #{i + 1}
                       </span>
                     </li>
