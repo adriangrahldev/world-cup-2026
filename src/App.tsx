@@ -20,13 +20,18 @@ function App() {
     const icsContent = generateICS(worldCupMatches);
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'Mundial_FIFA_2026.ics';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (isIOS) {
+      window.location.href = url;
+    } else {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Mundial_FIFA_2026.ics';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
     setIsExporting(false);
     setExportSuccess(true);
     setTimeout(() => setExportSuccess(false), 3000);
