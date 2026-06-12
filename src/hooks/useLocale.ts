@@ -24,19 +24,40 @@ const COUNTRY_NAME: Record<string, Record<Locale, string>> = {
 
 export function detectLocaleFromBrowser(): Locale {
   if (typeof window === 'undefined') return 'en';
+  // 1. URL param `?lang=` (highest priority, for shareable SEO links)
+  try {
+    const url = new URL(window.location.href);
+    const param = url.searchParams.get('lang');
+    if (param === 'es' || param === 'en') return param;
+  } catch {
+    // ignore
+  }
+  // 2. localStorage
   const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
   if (stored === 'es' || stored === 'en') return stored;
-
+  // 3. Browser preference
   const browserLangs = navigator.languages?.length
     ? navigator.languages
     : [navigator.language];
-
   for (const lang of browserLangs) {
     const lower = lang.toLowerCase();
     if (lower.startsWith('es')) return 'es';
     if (lower.startsWith('en')) return 'en';
   }
   return 'en';
+}
+
+function syncUrlLang(lang: Locale) {
+  if (typeof window === 'undefined') return;
+  try {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('lang') !== lang) {
+      url.searchParams.set('lang', lang);
+      window.history.replaceState({}, '', url.toString());
+    }
+  } catch {
+    // ignore
+  }
 }
 
 async function detectCountryByLocale(): Promise<Country> {
@@ -84,6 +105,7 @@ export function useLocale() {
     try {
       localStorage.setItem(STORAGE_KEY, next);
       document.documentElement.lang = next;
+      syncUrlLang(next);
     } catch {
       // ignore
     }

@@ -41,7 +41,7 @@ export function UpcomingMatches({ matches, t, locale }: UpcomingMatchesProps) {
                 </div>
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-extrabold text-cream-50 tracking-tight leading-tight">
+                <h2 id="upcoming-heading" className="text-xl md:text-2xl font-extrabold text-cream-50 tracking-tight leading-tight">
                   {t.upcoming.title}
                 </h2>
                 <p className="text-pitch-300/80 text-sm mt-0.5">

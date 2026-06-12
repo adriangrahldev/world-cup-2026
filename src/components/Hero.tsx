@@ -51,7 +51,7 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
               <BallIcon size={56} variant="full" />
             </div>
 
-            <h1 className="text-display text-balance relative">
+            <h1 id="hero-heading" className="text-display text-balance relative">
               <span className="block text-cream-50">{t.hero.title1}</span>
               <span className="block bg-gradient-to-br from-pitch-300 via-pitch-400 to-pitch-600 bg-clip-text text-transparent">
                 {t.hero.title2}

@@ -39,9 +39,9 @@ export function FinalSection({ t, locale }: FinalSectionProps) {
               </div>
             </div>
 
-            <h3 className="text-3xl md:text-5xl font-black tracking-tight text-cream-50 mb-3">
+            <h2 id="final-heading" className="text-3xl md:text-5xl font-black tracking-tight text-cream-50 mb-3">
               {t.final.title}
-            </h3>
+            </h2>
 
             <p className="text-gold-400 font-bold text-lg mb-2 tabular-nums">
               {t.final.date}

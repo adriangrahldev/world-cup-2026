@@ -45,7 +45,7 @@ export function Fixtures({ matches, groups, t, locale }: FixturesProps) {
               <span className="w-6 h-px bg-pitch-400/60" />
               <span>{locale === 'es' ? 'Calendario' : 'Calendar'}</span>
             </div>
-            <h2 className="section-title">{t.fixtures.title}</h2>
+            <h2 id="matches-heading" className="section-title">{t.fixtures.title}</h2>
             <p className="section-subtitle mt-2">
               {t.fixtures.subtitle
                 .replace('{groups}', String(groupStage))

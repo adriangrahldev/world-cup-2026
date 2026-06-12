@@ -2,21 +2,118 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0e1c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0a0e1c" />
+    <meta name="msapplication-TileColor" content="#0a0e1c" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Primary meta -->
+    <title>World Cup 2026 · Copa Mundial de la FIFA · Calendario, Grupos y Sedes</title>
+    <meta name="description" content="Copa Mundial de la FIFA 2026: calendario completo de los 104 partidos, los 12 grupos, las 48 selecciones y las 16 sedes oficiales en Estados Unidos, México y Canadá. Disponible en español e inglés." />
+    <meta name="keywords" content="Mundial 2026, FIFA World Cup 2026, Copa Mundial 2026, calendario mundial 2026, grupos mundial 2026, sedes mundial 2026, partidos hoy, World Cup schedule, USA México Canadá, MetLife Stadium, Estadio Azteca, BC Place, 11 junio 2026, 19 julio 2026" />
+    <meta name="author" content="adriangrahl" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="revisit-after" content="1 day" />
+    <meta name="language" content="Spanish, English" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+
+    <!-- Canonical & hreflang -->
+    <link rel="canonical" href="https://worldcup.adriangrahl.com/" />
+    <link rel="alternate" hreflang="es" href="https://worldcup.adriangrahl.com/?lang=es" />
+    <link rel="alternate" hreflang="en" href="https://worldcup.adriangrahl.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://worldcup.adriangrahl.com/" />
+
+    <!-- Icons & PWA -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" type="image/svg+xml" href="/favicon.ico.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a4d2e" />
-    <meta name="description" content="Copa Mundial de la FIFA 2026 — Calendario, grupos, equipos, partidos y estadios. Disponible en español e inglés." />
-    <meta name="keywords" content="Mundial 2026, FIFA, World Cup, USA, México, Canadá, fútbol, soccer" />
-    <meta property="og:title" content="FIFA World Cup 2026 — Copa Mundial" />
-    <meta property="og:description" content="Todo el torneo más grande de la historia. Calendario, partidos, grupos y estadios en un solo lugar." />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#16a34a" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <title>World Cup 2026 · Copa Mundial de la FIFA</title>
+    <meta property="og:site_name" content="FIFA World Cup 2026 — adriangrahl" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:url" content="https://worldcup.adriangrahl.com/" />
+    <meta property="og:title" content="World Cup 2026 · Copa Mundial de la FIFA" />
+    <meta property="og:description" content="Calendario completo, los 12 grupos, las 48 selecciones y las 16 sedes del Mundial más grande de la historia. 11 junio — 19 julio 2026." />
+    <meta property="og:image" content="https://worldcup.adriangrahl.com/og/og-image-1200x630.png" />
+    <meta property="og:image:secure_url" content="https://worldcup.adriangrahl.com/og/og-image-1200x630.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FIFA World Cup 2026 — Copa Mundial de la FIFA" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@adriangrahl" />
+    <meta name="twitter:creator" content="@adriangrahl" />
+    <meta name="twitter:title" content="World Cup 2026 · Copa Mundial de la FIFA" />
+    <meta name="twitter:description" content="Calendario, grupos, equipos y las 16 sedes del Mundial más grande de la historia." />
+    <meta name="twitter:image" content="https://worldcup.adriangrahl.com/og/twitter-card-1200x675.png" />
+    <meta name="twitter:image:alt" content="FIFA World Cup 2026 — Copa Mundial de la FIFA" />
+
+    <!-- Performance: DNS prefetch & preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link rel="dns-prefetch" href="https://upload.wikimedia.org" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+    <!-- Fonts (preload critical, then async swap) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+    </noscript>
+
+    <!-- Structured data: Organization + Website + SportsEvent (English + Spanish variants injected at runtime too) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://worldcup.adriangrahl.com/#website",
+          "url": "https://worldcup.adriangrahl.com/",
+          "name": "World Cup 2026 — adriangrahl",
+          "inLanguage": ["es-ES", "en-US"],
+          "publisher": { "@id": "https://worldcup.adriangrahl.com/#person" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://worldcup.adriangrahl.com/#person",
+          "name": "Adrian Grahl",
+          "url": "https://adriangrahl.com/"
+        },
+        {
+          "@type": "SportsEvent",
+          "name": "FIFA World Cup 2026",
+          "alternateName": "Copa Mundial de la FIFA 2026",
+          "description": "The 23rd FIFA World Cup, hosted across United States, Mexico and Canada. 48 teams, 104 matches, 16 host cities.",
+          "startDate": "2026-06-11T13:00:00-05:00",
+          "endDate": "2026-07-19T15:00:00-04:00",
+          "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+          "eventStatus": "https://schema.org/EventScheduled",
+          "location": [
+            { "@type": "Place", "name": "Estadio Azteca", "address": { "@type": "PostalAddress", "addressLocality": "Ciudad de México", "addressCountry": "MX" } },
+            { "@type": "Place", "name": "MetLife Stadium", "address": { "@type": "PostalAddress", "addressLocality": "East Rutherford, NJ", "addressCountry": "US" } },
+            { "@type": "Place", "name": "BC Place", "address": { "@type": "PostalAddress", "addressLocality": "Vancouver", "addressCountry": "CA" } }
+          ],
+          "organizer": { "@type": "Organization", "name": "FIFA", "url": "https://www.fifa.com/" },
+          "sport": "Football",
+          "competitor": ["México", "Estados Unidos", "Canadá", "Brasil", "Argentina", "Francia", "España", "Alemania", "Inglaterra", "Portugal"]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

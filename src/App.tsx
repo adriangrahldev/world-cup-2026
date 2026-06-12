@@ -12,6 +12,7 @@ import { Groups } from './components/Groups';
 import { Venues } from './components/Venues';
 import { FinalSection } from './components/FinalSection';
 import { Footer } from './components/Footer';
+import { SeoHead } from './components/SeoHead';
 
 function App() {
   const { locale, setLocale, country, t } = useLocale();
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <div className="relative min-h-screen text-cream-100 antialiased">
+      <SeoHead locale={locale} />
       <PitchBackground />
 
       <Header
@@ -67,7 +69,12 @@ function App() {
         detectedCountry={country === 'auto' ? '' : country}
       />
 
-      <main id="main" className="relative z-10">
+      <main
+        id="main"
+        className="relative z-10"
+        itemScope
+        itemType="https://schema.org/CollectionPage"
+      >
         <Hero
           t={t}
           locale={locale}
@@ -79,15 +86,42 @@ function App() {
 
         <TeamsMarquee locale={locale} />
 
-        <UpcomingMatches matches={upcoming} t={t} locale={locale} />
+        <section
+          id="matches"
+          aria-labelledby="matches-heading"
+          itemScope
+          itemType="https://schema.org/ItemList"
+        >
+          <UpcomingMatches matches={upcoming} t={t} locale={locale} />
+          <Fixtures matches={worldCupMatches} groups={groups} t={t} locale={locale} />
+        </section>
 
-        <Fixtures matches={worldCupMatches} groups={groups} t={t} locale={locale} />
+        <section
+          id="groups"
+          aria-labelledby="groups-heading"
+          itemScope
+          itemType="https://schema.org/ItemList"
+        >
+          <Groups t={t} locale={locale} />
+        </section>
 
-        <Groups t={t} locale={locale} />
+        <section
+          id="venues"
+          aria-labelledby="venues-heading"
+          itemScope
+          itemType="https://schema.org/ItemList"
+        >
+          <Venues t={t} locale={locale} />
+        </section>
 
-        <Venues t={t} locale={locale} />
-
-        <FinalSection t={t} locale={locale} />
+        <section
+          id="final"
+          aria-labelledby="final-heading"
+          itemScope
+          itemType="https://schema.org/SportsEvent"
+        >
+          <FinalSection t={t} locale={locale} />
+        </section>
       </main>
 
       <Footer t={t} locale={locale} />

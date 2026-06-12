@@ -1,0 +1,61 @@
+{
+  "name": "World Cup 2026 — Copa Mundial de la FIFA",
+  "short_name": "WC26",
+  "description": "Calendario completo, los 12 grupos, las 48 selecciones y las 16 sedes del Mundial 2026.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#0a0e1c",
+  "theme_color": "#0a0e1c",
+  "categories": ["sports", "news", "lifestyle"],
+  "iarc_rating_id": "",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/icons/favicon-16.png", "sizes": "16x16", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/favicon-32.png", "sizes": "32x32", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "/og/og-image-1200x630.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "FIFA World Cup 2026"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Partidos",
+      "short_name": "Matches",
+      "description": "Calendario completo del Mundial 2026",
+      "url": "/?utm_source=pwa#matches",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Grupos",
+      "short_name": "Groups",
+      "description": "Los 12 grupos y las 48 selecciones",
+      "url": "/?utm_source=pwa#groups",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Sedes",
+      "short_name": "Venues",
+      "description": "Las 16 ciudades sede del Mundial 2026",
+      "url": "/?utm_source=pwa#venues",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "share_target": {
+    "action": "/?utm_source=share",
+    "method": "GET",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  }
+}

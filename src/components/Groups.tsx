@@ -17,7 +17,7 @@ export function Groups({ t, locale }: GroupsProps) {
             <span>{locale === 'es' ? 'Los Grupos' : 'The Groups'}</span>
             <span className="w-6 h-px bg-pitch-400/60" />
           </div>
-          <h2 className="section-title">{t.groups.title}</h2>
+          <h2 id="groups-heading" className="section-title">{t.groups.title}</h2>
           <p className="section-subtitle mt-2">{t.groups.subtitle}</p>
         </header>
 

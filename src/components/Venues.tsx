@@ -39,7 +39,7 @@ export function Venues({ t, locale }: VenuesProps) {
             <span>{locale === 'es' ? 'Estadios' : 'Stadiums'}</span>
             <span className="w-6 h-px bg-pitch-400/60" />
           </div>
-          <h2 className="section-title">{t.venues.title}</h2>
+          <h2 id="venues-heading" className="section-title">{t.venues.title}</h2>
           <p className="section-subtitle mt-2">{t.venues.subtitle}</p>
         </header>
 
