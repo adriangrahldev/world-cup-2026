@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { worldCupMatches, generateICS, groups, getUpcomingMatches } from './data/matches';
 import { useLocale } from './hooks/useLocale';
 import { PitchBackground } from './components/PitchBackground';
@@ -90,6 +91,8 @@ function App() {
       </main>
 
       <Footer t={t} locale={locale} />
+
+      <Analytics />
     </div>
   );
 }
