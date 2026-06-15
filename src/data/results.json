@@ -1,16 +1,147 @@
 {
-  "_": "Resultados de partidos jugados. Editar a mano a medida que se juegan. Mantener ordenado por date (asc). Borrar esta línea _ antes de publicar.",
+  "_": "Resultados reales. Editar a mano a medida que se juegan. Mantener ordenado por date (asc). Borrar esta línea _ antes de prod.",
   "results": [
     {
       "id": 1,
       "date": "2026-06-11",
       "status": "final",
       "homeScore": 2,
+      "awayScore": 0,
+      "goals": [
+        { "team": "home", "scorer": "Julián Quiñones", "minute": 9 },
+        { "team": "home", "scorer": "Raúl Jiménez", "minute": 67 }
+      ]
+    },
+    {
+      "id": 2,
+      "date": "2026-06-11",
+      "status": "final",
+      "homeScore": 2,
       "awayScore": 1,
       "goals": [
-        { "team": "home", "scorer": "H. Lozano", "minute": 23, "type": "goal" },
-        { "team": "home", "scorer": "L. Hernández", "minute": 67, "type": "goal" },
-        { "team": "away", "scorer": "P. Tau", "minute": 89, "type": "penalty" }
+        { "team": "away", "scorer": "Ladislav Krejčí", "minute": 59 },
+        { "team": "home", "scorer": "Hwang In-beom", "minute": 67 },
+        { "team": "home", "scorer": "Oh Hyeon-gyu", "minute": 80 }
+      ]
+    },
+    {
+      "id": 3,
+      "date": "2026-06-12",
+      "status": "final",
+      "homeScore": 1,
+      "awayScore": 1,
+      "goals": [
+        { "team": "away", "scorer": "Jovo Lukić", "minute": 21 },
+        { "team": "home", "scorer": "Cyle Larin", "minute": 78 }
+      ]
+    },
+    {
+      "id": 4,
+      "date": "2026-06-12",
+      "status": "final",
+      "homeScore": 4,
+      "awayScore": 1,
+      "goals": [
+        { "team": "home", "scorer": "Damián Bobadilla", "minute": 7, "type": "own_goal" },
+        { "team": "home", "scorer": "Folarin Balogun", "minute": 31 },
+        { "team": "home", "scorer": "Folarin Balogun", "minute": "45+5" },
+        { "team": "away", "scorer": "Maurício", "minute": 73 },
+        { "team": "home", "scorer": "Giovanni Reyna", "minute": "90+8" }
+      ]
+    },
+    {
+      "id": 5,
+      "date": "2026-06-13",
+      "status": "final",
+      "homeScore": 0,
+      "awayScore": 1,
+      "goals": [
+        { "team": "away", "scorer": "John McGinn", "minute": 28 }
+      ]
+    },
+    {
+      "id": 6,
+      "date": "2026-06-13",
+      "status": "final",
+      "homeScore": 2,
+      "awayScore": 0,
+      "goals": [
+        { "team": "home", "scorer": "Nestory Irankunda", "minute": 27 },
+        { "team": "home", "scorer": "Connor Metcalfe", "minute": 75 }
+      ]
+    },
+    {
+      "id": 7,
+      "date": "2026-06-13",
+      "status": "final",
+      "homeScore": 1,
+      "awayScore": 1,
+      "goals": [
+        { "team": "away", "scorer": "Ismael Saibari", "minute": 21 },
+        { "team": "home", "scorer": "Vinícius Júnior", "minute": 32 }
+      ]
+    },
+    {
+      "id": 8,
+      "date": "2026-06-13",
+      "status": "final",
+      "homeScore": 1,
+      "awayScore": 1,
+      "goals": [
+        { "team": "away", "scorer": "Breel Embolo", "minute": 17, "type": "penalty" },
+        { "team": "home", "scorer": "Miro Muheim", "minute": "90+4", "type": "own_goal" }
+      ]
+    },
+    {
+      "id": 9,
+      "date": "2026-06-14",
+      "status": "final",
+      "homeScore": 1,
+      "awayScore": 0,
+      "goals": [
+        { "team": "home", "scorer": "Amad Diallo", "minute": 90 }
+      ]
+    },
+    {
+      "id": 10,
+      "date": "2026-06-14",
+      "status": "final",
+      "homeScore": 7,
+      "awayScore": 1,
+      "goals": [
+        { "team": "home", "scorer": "Felix Nmecha", "minute": 6 },
+        { "team": "away", "scorer": "Livano Comenencia", "minute": 21 },
+        { "team": "home", "scorer": "Nico Schlotterbeck", "minute": 38 },
+        { "team": "home", "scorer": "Kai Havertz", "minute": "45+5", "type": "penalty" },
+        { "team": "home", "scorer": "Jamal Musiala", "minute": 47 },
+        { "team": "home", "scorer": "Nathaniel Brown", "minute": 68 },
+        { "team": "home", "scorer": "Deniz Undav", "minute": 78 },
+        { "team": "home", "scorer": "Kai Havertz", "minute": 88 }
+      ]
+    },
+    {
+      "id": 11,
+      "date": "2026-06-14",
+      "status": "final",
+      "homeScore": 2,
+      "awayScore": 2,
+      "goals": [
+        { "team": "home", "scorer": "Virgil van Dijk", "minute": 50 },
+        { "team": "away", "scorer": "Keito Nakamura", "minute": 57 },
+        { "team": "home", "scorer": "Crysencio Summerville", "minute": 64 },
+        { "team": "away", "scorer": "Daichi Kamada", "minute": 88 }
+      ]
+    },
+    {
+      "id": 12,
+      "date": "2026-06-14",
+      "status": "final",
+      "homeScore": 2,
+      "awayScore": 1,
+      "goals": [
+        { "team": "home", "scorer": "Yasin Ayari", "minute": 7 },
+        { "team": "home", "scorer": "Alexander Isak", "minute": 30 },
+        { "team": "away", "scorer": "Omar Rekik", "minute": 43 }
       ]
     }
   ]
