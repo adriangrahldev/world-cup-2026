@@ -10,9 +10,9 @@ interface VenuesProps {
 }
 
 const COUNTRY_LABEL: Record<Country, Record<Locale, string>> = {
-  USA: { es: 'Estados Unidos', en: 'United States' },
-  MEX: { es: 'México', en: 'Mexico' },
-  CAN: { es: 'Canadá', en: 'Canada' },
+  USA: { es: 'Estados Unidos', en: 'United States', pt: 'Estados Unidos', fr: 'États-Unis' },
+  MEX: { es: 'México', en: 'Mexico', pt: 'México', fr: 'Mexique' },
+  CAN: { es: 'Canadá', en: 'Canada', pt: 'Canadá', fr: 'Canada' },
 };
 
 const FILTERS: Array<{ id: 'all' | Country; label: { es: string; en: string } }> = [

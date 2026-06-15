@@ -63,9 +63,9 @@ export function formatMatchDate(match: Match, locale: Locale, visitorTz: string,
 
 export function countryCodeToName(code: 'USA' | 'MEX' | 'CAN', locale: Locale): string {
   const map: Record<string, Record<Locale, string>> = {
-    USA: { es: 'Estados Unidos', en: 'United States' },
-    MEX: { es: 'México', en: 'Mexico' },
-    CAN: { es: 'Canadá', en: 'Canada' },
+    USA: { es: 'Estados Unidos', en: 'United States', pt: 'Estados Unidos', fr: 'États-Unis' },
+    MEX: { es: 'México', en: 'Mexico', pt: 'México', fr: 'Mexique' },
+    CAN: { es: 'Canadá', en: 'Canada', pt: 'Canadá', fr: 'Canada' },
   };
   return map[code]?.[locale] ?? code;
 }

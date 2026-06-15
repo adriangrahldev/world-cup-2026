@@ -10,38 +10,52 @@ const COUNTRY_TO_LOCALE: Record<string, Locale> = {
   // Spanish speaking
   MX: 'es', ES: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es',
   EC: 'es', GT: 'es', BO: 'es', CU: 'es', DO: 'es', HN: 'es', SV: 'es',
-  NI: 'es', CR: 'es', PA: 'es', UY: 'es', PY: 'es', PR: 'es', US: 'es', MX_: 'es',
+  NI: 'es', CR: 'es', PA: 'es', UY: 'es', PY: 'es', PR: 'es', US: 'es',
+  // Portuguese (Brazil)
+  BR: 'pt', PT: 'pt', AO: 'pt', MZ: 'pt',
+  // French (France + parts of Canada)
+  FR: 'fr', BE: 'fr', CH: 'fr', CA: 'fr', LU: 'fr',
   // English speaking default
-  GB: 'en', CA: 'en', AU: 'en', IE: 'en', NZ: 'en',
+  GB: 'en', IE: 'en', AU: 'en', NZ: 'en', ZA: 'en', IN: 'en',
 };
 
+const LANG_LABEL: Record<Locale, { native: string; flag: string; detectIn: string }> = {
+  es: { native: 'Español', flag: '🇪🇸', detectIn: 'Detectado' },
+  en: { native: 'English', flag: '🇺🇸', detectIn: 'Detected' },
+  pt: { native: 'Português', flag: '🇧🇷', detectIn: 'Detectado' },
+  fr: { native: 'Français', flag: '🇫🇷', detectIn: 'Détecté' },
+};
+
+export function getLangLabel(l: Locale): { native: string; flag: string; detectIn: string } {
+  return LANG_LABEL[l];
+}
+
 const COUNTRY_NAME: Record<string, Record<Locale, string>> = {
-  USA: { es: 'Estados Unidos', en: 'United States' },
-  MEX: { es: 'México', en: 'Mexico' },
-  CAN: { es: 'Canadá', en: 'Canada' },
-  other: { es: 'Internacional', en: 'International' },
+  USA: { es: 'Estados Unidos', en: 'United States', pt: 'Estados Unidos', fr: 'États-Unis' },
+  MEX: { es: 'México', en: 'Mexico', pt: 'México', fr: 'Mexique' },
+  CAN: { es: 'Canadá', en: 'Canada', pt: 'Canadá', fr: 'Canada' },
+  other: { es: 'Internacional', en: 'International', pt: 'Internacional', fr: 'International' },
 };
 
 export function detectLocaleFromBrowser(): Locale {
   if (typeof window === 'undefined') return 'en';
-  // 1. URL param `?lang=` (highest priority, for shareable SEO links)
   try {
     const url = new URL(window.location.href);
     const param = url.searchParams.get('lang');
-    if (param === 'es' || param === 'en') return param;
+    if (param === 'es' || param === 'en' || param === 'pt' || param === 'fr') return param;
   } catch {
     // ignore
   }
-  // 2. localStorage
   const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
-  if (stored === 'es' || stored === 'en') return stored;
-  // 3. Browser preference
+  if (stored === 'es' || stored === 'en' || stored === 'pt' || stored === 'fr') return stored;
   const browserLangs = navigator.languages?.length
     ? navigator.languages
     : [navigator.language];
   for (const lang of browserLangs) {
     const lower = lang.toLowerCase();
     if (lower.startsWith('es')) return 'es';
+    if (lower.startsWith('pt')) return 'pt';
+    if (lower.startsWith('fr')) return 'fr';
     if (lower.startsWith('en')) return 'en';
   }
   return 'en';
@@ -66,7 +80,6 @@ async function detectCountryByLocale(): Promise<Country> {
   if (stored) return stored;
 
   try {
-    // Intl.DateTimeFormat can give country from timezone in some cases
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
     if (tz.includes('America/Mexico') || tz.includes('America/Tijuana') || tz.includes('America/Cancun') || tz.includes('America/Monterrey') || tz.includes('America/Mazatlan')) {
       return 'MEX';
@@ -118,11 +131,8 @@ export function useLocale() {
     } catch {
       // ignore
     }
-    // Cambio de país puede sugerir cambio de idioma
     if (c === 'MEX' && locale === 'en') {
       setLocale('es');
-    } else if (c === 'USA' && locale === 'en') {
-      // USA: mantener preferencia del usuario
     }
   }, [locale, setLocale]);
 

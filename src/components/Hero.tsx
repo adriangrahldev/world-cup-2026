@@ -99,7 +99,14 @@ export function Hero({ t, locale, onExport, isExporting, exportSuccess, countryN
                 </>
               )}
             </button>
-            <p className="text-xs text-cream-100/40">{t.hero.ctaCalendarHint}</p>
+            <button
+              onClick={() => document.getElementById('matches')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-cream-50 text-sm font-semibold transition-all duration-300 group"
+            >
+              {locale === 'es' ? 'Ver partidos' : 'View matches'}
+              <ChevronDown className="w-4 h-4 -rotate-90 group-hover:translate-x-0.5 transition-transform duration-300" />
+            </button>
+            <p className="text-xs text-cream-100/40 sm:absolute sm:mt-20">{t.hero.ctaCalendarHint}</p>
           </div>
 
           {/* Stats — equalized heights */}

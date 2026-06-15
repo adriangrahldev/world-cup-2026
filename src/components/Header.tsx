@@ -4,6 +4,9 @@ import { BallIcon } from './icons/BallIcon';
 import { hostCountries } from '../data/matches';
 import type { Locale } from '../i18n/translations';
 import { countryCodeToName } from '../lib/format';
+import { getLangLabel } from '../hooks/useLocale';
+
+const LANGS: Locale[] = ['es', 'en', 'pt', 'fr'];
 
 interface HeaderProps {
   locale: Locale;
@@ -15,14 +18,34 @@ const NAV_ITEMS: Record<Locale, Array<{ id: string; label: string }>> = {
   es: [
     { id: 'home', label: 'Inicio' },
     { id: 'matches', label: 'Partidos' },
+    { id: 'scorers', label: 'Goleadores' },
     { id: 'groups', label: 'Grupos' },
+    { id: 'bracket', label: 'Llave' },
     { id: 'venues', label: 'Sedes' },
   ],
   en: [
     { id: 'home', label: 'Home' },
     { id: 'matches', label: 'Matches' },
+    { id: 'scorers', label: 'Scorers' },
     { id: 'groups', label: 'Groups' },
+    { id: 'bracket', label: 'Bracket' },
     { id: 'venues', label: 'Venues' },
+  ],
+  pt: [
+    { id: 'home', label: 'Início' },
+    { id: 'matches', label: 'Partidas' },
+    { id: 'scorers', label: 'Goleadores' },
+    { id: 'groups', label: 'Grupos' },
+    { id: 'bracket', label: 'Chave' },
+    { id: 'venues', label: 'Sedes' },
+  ],
+  fr: [
+    { id: 'home', label: 'Accueil' },
+    { id: 'matches', label: 'Matchs' },
+    { id: 'scorers', label: 'Buteurs' },
+    { id: 'groups', label: 'Groupes' },
+    { id: 'bracket', label: 'Tableau' },
+    { id: 'venues', label: 'Sites' },
   ],
 };
 
@@ -144,35 +167,29 @@ export function Header({ locale, onChangeLocale, detectedCountry }: HeaderProps)
               <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
             </button>
             {langOpen && (
-              <div className="absolute right-0 top-full mt-2 w-48 surface rounded-2xl p-1.5 anim-fade-in shadow-2xl z-10">
-                <button
-                  onClick={() => { onChangeLocale('es'); setLangOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                    locale === 'es' ? 'bg-pitch-500/15 text-pitch-200' : 'text-cream-100 hover:bg-white/5'
-                  }`}
-                >
-                  <span className="text-base">🇪🇸</span>
-                  <span>Español</span>
-                  {detectedCountry === 'MEX' && (
-                    <span className="ml-auto text-[10px] uppercase tracking-wider text-pitch-300 bg-pitch-500/15 px-2 py-0.5 rounded-full">
-                      {locale === 'es' ? 'Detectado' : 'Detected'}
-                    </span>
-                  )}
-                </button>
-                <button
-                  onClick={() => { onChangeLocale('en'); setLangOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                    locale === 'en' ? 'bg-pitch-500/15 text-pitch-200' : 'text-cream-100 hover:bg-white/5'
-                  }`}
-                >
-                  <span className="text-base">🇺🇸</span>
-                  <span>English</span>
-                  {detectedCountry === 'USA' && (
-                    <span className="ml-auto text-[10px] uppercase tracking-wider text-pitch-300 bg-pitch-500/15 px-2 py-0.5 rounded-full">
-                      {locale === 'es' ? 'Detectado' : 'Detected'}
-                    </span>
-                  )}
-                </button>
+              <div className="absolute right-0 top-full mt-2 w-52 surface rounded-2xl p-1.5 anim-fade-in shadow-2xl z-10">
+                {LANGS.map(l => {
+                  const ll = getLangLabel(l);
+                  return (
+                    <button
+                      key={l}
+                      onClick={() => { onChangeLocale(l); setLangOpen(false); }}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                        locale === l ? 'bg-pitch-500/15 text-pitch-200' : 'text-cream-100 hover:bg-white/5'
+                      }`}
+                    >
+                      <span className="text-base">{ll.flag}</span>
+                      <span>{ll.native}</span>
+                      {((l === 'es' && detectedCountry === 'MEX') ||
+                        (l === 'en' && detectedCountry === 'USA') ||
+                        (l === 'pt' && detectedCountry === 'other') /* approximate, see hook */) && (
+                        <span className="ml-auto text-[10px] uppercase tracking-wider text-pitch-300 bg-pitch-500/15 px-2 py-0.5 rounded-full">
+                          {ll.detectIn}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

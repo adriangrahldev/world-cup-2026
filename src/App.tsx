@@ -8,7 +8,9 @@ import { Hero } from './components/Hero';
 import { TeamsMarquee } from './components/TeamsMarquee';
 import { UpcomingMatches } from './components/UpcomingMatches';
 import { Fixtures } from './components/Fixtures';
+import { TopScorers } from './components/TopScorers';
 import { Groups } from './components/Groups';
+import { Bracket } from './components/Bracket';
 import { Venues } from './components/Venues';
 import { FinalSection } from './components/FinalSection';
 import { Footer } from './components/Footer';
@@ -21,7 +23,6 @@ function App() {
 
   const upcoming = useMemo(() => getUpcomingMatches(7), []);
 
-  // Sync html lang attribute on locale change
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
@@ -87,12 +88,22 @@ function App() {
         <TeamsMarquee locale={locale} />
 
         <section
+          id="upcoming-and-results"
+          aria-labelledby="upcoming-heading"
+          itemScope
+          itemType="https://schema.org/ItemList"
+        >
+          <UpcomingMatches matches={upcoming} t={t} locale={locale} />
+        </section>
+
+        <TopScorers locale={locale} t={t.scorers} />
+
+        <section
           id="matches"
           aria-labelledby="matches-heading"
           itemScope
           itemType="https://schema.org/ItemList"
         >
-          <UpcomingMatches matches={upcoming} t={t} locale={locale} />
           <Fixtures matches={worldCupMatches} groups={groups} t={t} locale={locale} />
         </section>
 
@@ -104,6 +115,8 @@ function App() {
         >
           <Groups t={t} locale={locale} />
         </section>
+
+        <Bracket t={t} locale={locale} />
 
         <section
           id="venues"

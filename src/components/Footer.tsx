@@ -30,14 +30,34 @@ export function Footer({ t, locale }: FooterProps) {
     es: [
       { id: 'home', label: 'Inicio' },
       { id: 'matches', label: 'Partidos' },
+      { id: 'scorers', label: 'Goleadores' },
       { id: 'groups', label: 'Grupos' },
+      { id: 'bracket', label: 'Llave' },
       { id: 'venues', label: 'Sedes' },
     ],
     en: [
       { id: 'home', label: 'Home' },
       { id: 'matches', label: 'Matches' },
+      { id: 'scorers', label: 'Scorers' },
       { id: 'groups', label: 'Groups' },
+      { id: 'bracket', label: 'Bracket' },
       { id: 'venues', label: 'Venues' },
+    ],
+    pt: [
+      { id: 'home', label: 'Início' },
+      { id: 'matches', label: 'Partidas' },
+      { id: 'scorers', label: 'Goleadores' },
+      { id: 'groups', label: 'Grupos' },
+      { id: 'bracket', label: 'Chave' },
+      { id: 'venues', label: 'Sedes' },
+    ],
+    fr: [
+      { id: 'home', label: 'Accueil' },
+      { id: 'matches', label: 'Matchs' },
+      { id: 'scorers', label: 'Buteurs' },
+      { id: 'groups', label: 'Groupes' },
+      { id: 'bracket', label: 'Tableau' },
+      { id: 'venues', label: 'Sites' },
     ],
   };
 

@@ -1,7 +1,8 @@
 import { teamFlags } from '../data/matches';
+import type { Locale } from '../i18n/translations';
 
 interface TeamsMarqueeProps {
-  locale: 'es' | 'en';
+  locale: Locale;
 }
 
 const TEAMS = Object.keys(teamFlags);
