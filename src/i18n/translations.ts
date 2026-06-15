@@ -48,6 +48,17 @@ export const translations = {
       showMore: 'Ver {count} partidos más',
       showLess: 'Mostrar menos',
     },
+    match: {
+      final: 'FINAL',
+      live: 'EN VIVO',
+      postponed: 'Pospuesto',
+      goals: 'Goles',
+      showGoals: 'Ver goles',
+      hideGoals: 'Ocultar goles',
+      penalty: 'penales',
+      ownGoal: 'en contra',
+      vs: 'vs',
+    },
     groups: {
       title: 'Los 12 Grupos',
       subtitle: '48 selecciones divididas en 12 grupos de 4 equipos',
@@ -144,6 +155,17 @@ export const translations = {
       showMore: 'Show {count} more matches',
       showLess: 'Show less',
     },
+    match: {
+      final: 'FULL TIME',
+      live: 'LIVE',
+      postponed: 'Postponed',
+      goals: 'Goals',
+      showGoals: 'Show goals',
+      hideGoals: 'Hide goals',
+      penalty: 'penalties',
+      ownGoal: 'own goal',
+      vs: 'vs',
+    },
     groups: {
       title: 'The 12 Groups',
       subtitle: '48 nations divided into 12 groups of 4 teams',
@@ -202,6 +224,7 @@ export type Translations = {
   stats: Record<string, string>;
   upcoming: Record<string, string>;
   fixtures: Record<string, string>;
+  match: Record<string, string>;
   groups: Record<string, string>;
   venues: Record<string, string>;
   hostCountries: Record<string, string>;

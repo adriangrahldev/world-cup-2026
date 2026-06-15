@@ -1,0 +1,17 @@
+{
+  "_": "Resultados de partidos jugados. Editar a mano a medida que se juegan. Mantener ordenado por date (asc). Borrar esta línea _ antes de publicar.",
+  "results": [
+    {
+      "id": 1,
+      "date": "2026-06-11",
+      "status": "final",
+      "homeScore": 2,
+      "awayScore": 1,
+      "goals": [
+        { "team": "home", "scorer": "H. Lozano", "minute": 23, "type": "goal" },
+        { "team": "home", "scorer": "L. Hernández", "minute": 67, "type": "goal" },
+        { "team": "away", "scorer": "P. Tau", "minute": 89, "type": "penalty" }
+      ]
+    }
+  ]
+}

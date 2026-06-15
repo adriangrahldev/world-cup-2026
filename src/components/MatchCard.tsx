@@ -1,9 +1,12 @@
-import { useMemo } from 'react';
-import { Clock, MapPin, Calendar as CalIcon } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Clock, MapPin, Calendar as CalIcon, ChevronDown, CircleDot } from 'lucide-react';
 import type { Match } from '../data/matches';
 import { getMatchUtcDate, getYmdInTz, getVisitorTimezone } from '../data/matches';
+import { getMatchResult, getGoalsByTeam } from '../data/results';
+import type { Goal } from '../data/results';
 import { formatMatchTime, formatMatchDate } from '../lib/format';
 import type { Locale } from '../i18n/translations';
+import { translations } from '../i18n/translations';
 
 interface MatchCardProps {
   match: Match;
@@ -25,7 +28,7 @@ function getStageInfo(stage: string) {
   return map[stage] || map.group;
 }
 
-function Flag({ src, alt, size = 'md' }: { src?: string; alt: string; size?: 'sm' | 'md' | 'lg' }) {
+function Flag({ src, alt, size = 'md' }: { src?: string; alt: string; size: 'sm' | 'md' | 'lg' }) {
   const sizes = {
     sm: 'w-7 h-5',
     md: 'w-10 h-7',
@@ -50,11 +53,28 @@ function Flag({ src, alt, size = 'md' }: { src?: string; alt: string; size?: 'sm
   );
 }
 
+function goalTypeLabel(g: Goal, locale: Locale, t: Record<string, string>): string | null {
+  if (g.type === 'penalty') return '(p)';
+  if (g.type === 'own_goal') return `(${t.ownGoal})`;
+  return null;
+}
+
+function goalLine(goals: Goal[], locale: Locale, t: Record<string, string>): string {
+  return goals
+    .map(g => {
+      const tag = goalTypeLabel(g, locale, t);
+      return `${g.scorer} ${g.minute}'${tag ? ' ' + tag : ''}`;
+    })
+    .join('  ·  ');
+}
+
 export function MatchCard({ match, index = 0, variant = 'default', locale }: MatchCardProps) {
   const isFeatured = variant === 'featured';
   const visitorTz = useMemo(() => getVisitorTimezone(), []);
   const now = useMemo(() => new Date(), []);
   const matchUtc = useMemo(() => getMatchUtcDate(match), [match.date, match.time, match.venue]);
+  const result = useMemo(() => getMatchResult(match.id), [match.id]);
+  const t = translations[locale].match;
 
   const todayYmd = getYmdInTz(now, visitorTz);
   const matchYmd = getYmdInTz(matchUtc, visitorTz);
@@ -63,6 +83,10 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
   const isToday = todayYmd === matchYmd;
   const isTomorrow = tomorrowYmd === matchYmd;
   const isPast = matchUtc.getTime() < now.getTime();
+  const isPlayed = result?.status === 'final' || (isPast && !!result);
+  const isLive = result?.status === 'live';
+
+  const [showGoals, setShowGoals] = useState(false);
 
   const stageInfo = getStageInfo(match.stage || 'group');
   const stageLabel = locale === 'es' ? stageInfo.es : stageInfo.en;
@@ -73,26 +97,33 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
       ? locale === 'es' ? 'MAÑANA' : 'TOMORROW'
       : formatMatchDate(match, locale, visitorTz, { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
 
+  const topPill = isLive
+    ? { label: t.live, cls: 'bg-red-500 text-white animate-pulse' }
+    : isPlayed
+      ? { label: t.final, cls: 'bg-white/10 text-cream-100/70 border border-white/10' }
+      : isToday
+        ? { label: datePill, cls: 'bg-pitch-500 text-night-950' }
+        : isPast
+          ? { label: datePill, cls: 'bg-white/5 text-cream-100/40' }
+          : { label: datePill, cls: 'bg-pitch-500/15 text-pitch-200' };
+
+  const goals = result ? getGoalsByTeam(result) : null;
+  const hasGoals = !!goals && result!.goals.length > 0;
+
   return (
     <article
       className={`group surface surface-hover rounded-2xl p-4 flex flex-col h-full ${
-        isPast ? 'opacity-65' : ''
-      } ${isToday ? 'ring-1 ring-pitch-400/40' : ''}`}
+        isPast && !isPlayed ? 'opacity-65' : ''
+      } ${isToday && !isPlayed ? 'ring-1 ring-pitch-400/40' : ''}`}
       style={{ animationDelay: `${Math.min(index, 12) * 40}ms` }}
     >
       {/* Top row */}
       <div className="flex items-center justify-between gap-2 mb-3 min-h-[24px]">
         <div className="flex items-center gap-1.5 flex-wrap">
           <span
-            className={`text-[10px] font-bold tracking-[0.14em] px-2 py-1 rounded-md whitespace-nowrap ${
-              isToday
-                ? 'bg-pitch-500 text-night-950'
-                : isPast
-                  ? 'bg-white/5 text-cream-100/40'
-                  : 'bg-pitch-500/15 text-pitch-200'
-            }`}
+            className={`text-[10px] font-bold tracking-[0.14em] px-2 py-1 rounded-md whitespace-nowrap ${topPill.cls}`}
           >
-            {datePill}
+            {topPill.label}
           </span>
           {match.group && (
             <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-cream-100/70 border border-white/5">
@@ -126,9 +157,28 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
         </div>
 
         <div className="flex flex-col items-center px-1 flex-shrink-0">
-          <div className={`grid place-items-center rounded-xl bg-white/5 border border-white/5 ${isFeatured ? 'w-12 h-12' : 'w-10 h-10'}`}>
-            <span className="text-pitch-300 font-black text-sm tracking-wider">VS</span>
-          </div>
+          {isPlayed && result ? (
+            <div
+              className={`grid place-items-center rounded-xl bg-white/5 border border-white/10 ${
+                isFeatured ? 'w-16 h-12' : 'w-14 h-10'
+              }`}
+            >
+              <span className={`font-black tabular-nums text-cream-50 ${isFeatured ? 'text-lg' : 'text-base'}`}>
+                {result.homeScore}
+                <span className="text-cream-100/30 mx-1">–</span>
+                {result.awayScore}
+              </span>
+            </div>
+          ) : (
+            <div className={`grid place-items-center rounded-xl bg-white/5 border border-white/5 ${isFeatured ? 'w-12 h-12' : 'w-10 h-10'}`}>
+              <span className="text-pitch-300 font-black text-sm tracking-wider">{t.vs.toUpperCase()}</span>
+            </div>
+          )}
+          {result?.penalties && (
+            <span className="text-[10px] text-cream-100/50 mt-1 tabular-nums">
+              ({result.penalties.home}–{result.penalties.away} {t.penalty})
+            </span>
+          )}
         </div>
 
         <div className="flex-1 min-w-0 flex flex-col items-center text-center gap-2">
@@ -140,6 +190,45 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
           </span>
         </div>
       </div>
+
+      {/* Goalscorers — compact one-liner + expand */}
+      {hasGoals && (
+        <div className="mt-3 pt-3 border-t border-white/5">
+          <button
+            type="button"
+            onClick={() => setShowGoals(s => !s)}
+            className="w-full flex items-center justify-between gap-2 text-left group/btn"
+            aria-expanded={showGoals}
+            aria-label={showGoals ? t.hideGoals : t.showGoals}
+          >
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wider text-cream-100/55 uppercase">
+              <CircleDot className="w-3 h-3 text-pitch-400" />
+              {t.goals} ({result!.goals.length})
+            </span>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-cream-100/40 transition-transform duration-300 ${showGoals ? 'rotate-180' : ''}`}
+            />
+          </button>
+          {showGoals && (
+            <div className="mt-2 space-y-1.5 text-[11px] text-cream-100/70">
+              {goals!.home.length > 0 && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-pitch-300/80 font-semibold min-w-[60px] truncate">{match.homeTeam.slice(0, 12)}</span>
+                  <span className="tabular-nums text-pitch-300/60">·</span>
+                  <span className="flex-1">{goalLine(goals!.home, locale, t)}</span>
+                </p>
+              )}
+              {goals!.away.length > 0 && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-cream-100/50 font-semibold min-w-[60px] truncate">{match.awayTeam.slice(0, 12)}</span>
+                  <span className="tabular-nums text-cream-100/30">·</span>
+                  <span className="flex-1">{goalLine(goals!.away, locale, t)}</span>
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Bottom */}
       <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2 text-cream-100/55">
