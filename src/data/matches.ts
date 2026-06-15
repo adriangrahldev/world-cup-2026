@@ -14,75 +14,9 @@ export interface Match {
   stage?: 'group' | 'round16' | 'round8' | 'quarter' | 'semi' | 'third' | 'final';
 }
 
-export const teamFlags: Record<string, string> = {
-  'México': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Flag_of_Mexico.svg/1280px-Flag_of_Mexico.svg.png',
-  'Sudáfrica': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Flag_of_South_Africa.svg/1280px-Flag_of_South_Africa.svg.png',
-  'Corea del Sur': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1280px-Flag_of_South_Korea.svg.png',
-  'República Checa': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_Czech_Republic.svg/1280px-Flag_of_the_Czech_Republic.svg.png',
-  'Canadá': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1280px-Flag_of_Canada_%28Pantone%29.svg.png',
-  'Bosnia y Herzegovina': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Flag_of_Bosnia_and_Herzegovina.svg/1280px-Flag_of_Bosnia_and_Herzegovina.svg.png',
-  'Catar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flag_of_Qatar.svg/1280px-Flag_of_Qatar.svg.png',
-  'Suiza': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/1280px-Flag_of_Switzerland.svg.png',
-  'Brasil': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Brazil_flag_300.png/1280px-Brazil_flag_300.png',
-  'Marruecos': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Morocco.svg/1280px-Flag_of_Morocco.svg.png',
-  'Haití': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Flag_of_Haiti.svg/1280px-Flag_of_Haiti.svg.png',
-  'Escocia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/1280px-Flag_of_Scotland.svg.png',
-  'Estados Unidos': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Flag_of_the_United_States.png/1280px-Flag_of_the_United_States.png',
-  'Paraguay': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Flag_of_Paraguay.svg/1280px-Flag_of_Paraguay.svg.png',
-  'Australia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1280px-Flag_of_Australia_%28converted%29.svg.png',
-  'Turquía': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/1280px-Flag_of_Turkey.svg.png',
-  'Alemania': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Flag_of_germany_800_480.png/1280px-Flag_of_germany_800_480.png',
-  'Curazao': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_of_Cura%C3%A7ao.svg/1280px-Flag_of_Cura%C3%A7ao.svg.png',
-  'Costa de Marfil': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Flag_of_Cote_d%27Ivoire.svg/1280px-Flag_of_Cote_d%27Ivoire.svg.png',
-  'Ecuador': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Flag_of_Ecuador.svg/1280px-Flag_of_Ecuador.svg.png',
-  'Países Bajos': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Flag_of_the_Netherlands.png/1280px-Flag_of_the_Netherlands.png',
-  'Japón': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/1280px-Flag_of_Japan.svg.png',
-  'Suecia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/1280px-Flag_of_Sweden.svg.png',
-  'Túnez': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Flag_of_Tunisia.svg/1280px-Flag_of_Tunisia.svg.png',
-  'Irán': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Flag_of_Iran.svg/1280px-Flag_of_Iran.svg.png',
-  'Nueva Zelanda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/1280px-Flag_of_New_Zealand.svg.png',
-  'Bélgica': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/1280px-Flag_of_Belgium.svg.png',
-  'Egipto': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/1280px-Flag_of_Egypt.svg.png',
-  'Arabia Saudita': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/1280px-Flag_of_Saudi_Arabia.svg.png',
-  'Uruguay': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Uruguay.svg/1280px-Flag_of_Uruguay.svg.png',
-  'España': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Spain_flag_300.png/1280px-Spain_flag_300.png',
-  'Cabo Verde': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Flag_of_Cape_Verde.svg/1280px-Flag_of_Cape_Verde.svg.png',
-  'Francia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Flag_of_France.png/1280px-Flag_of_France.png',
-  'Senegal': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Senegal.svg/1280px-Flag_of_Senegal.svg.png',
-  'Irak': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Iraq.svg/1280px-Flag_of_Iraq.svg.png',
-  'Noruega': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Norway.svg/1280px-Flag_of_Norway.svg.png',
-  'Argentina': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flag_of_Argentina.png/1280px-Flag_of_Argentina.png',
-  'Argelia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Flag_of_Algeria.svg/1280px-Flag_of_Algeria.svg.png',
-  'Austria': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Austria.svg/1280px-Flag_of_Austria.svg.png',
-  'Jordania': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Flag_of_Jordan.svg/1280px-Flag_of_Jordan.svg.png',
-  'Portugal': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/1280px-Flag_of_Portugal.svg.png',
-  'RD Congo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Flag_of_the_Democratic_Republic_of_the_Congo.svg/1280px-Flag_of_the_Democratic_Republic_of_the_Congo.svg.png',
-  'Uzbekistán': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Flag_of_Uzbekistan.svg/1280px-Flag_of_Uzbekistan.svg.png',
-  'Colombia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/1280px-Flag_of_Colombia.svg.png',
-  'Ghana': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Ghana.svg/1280px-Flag_of_Ghana.svg.png',
-  'Panamá': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Flag_of_Panama.svg/1280px-Flag_of_Panama.svg.png',
-  'Inglaterra': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Flag_of_England.PNG/1280px-Flag_of_England.PNG',
-  'Croacia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_Croatia.svg/1280px-Flag_of_Croatia.svg.png',
-};
-
-export const venueImages: Record<string, string> = {
-  'Estadio Azteca': 'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=600&auto=format&q=70&fit=crop',
-  'Estadio Akron': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
-  'SoFi Stadium': 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=600&auto=format&q=70&fit=crop',
-  'MetLife Stadium': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
-  'AT&T Stadium': 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=600&auto=format&q=70&fit=crop',
-  'NRG Stadium': 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&auto=format&q=70&fit=crop',
-  'Hard Rock Stadium': 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&auto=format&q=70&fit=crop',
-  'Lumen Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
-  "Levi's Stadium": 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
-  'Gillette Stadium': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
-  'BC Place': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
-  'BMO Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
-  'Mercedes-Benz Stadium': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
-  'Arrowhead Stadium': 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&auto=format&q=70&fit=crop',
-  'Lincoln Financial Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
-  'Estadio Monterrey': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
-};
+// Re-export from flags.ts (locally-hosted assets, see scripts/download-flags.mjs).
+export { teamFlags, venueImages } from './flags';
+import { teamFlags, venueImages } from './flags';
 
 export const worldCupMatches: Match[] = [
   // Grupo A

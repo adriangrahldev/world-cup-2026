@@ -117,7 +117,74 @@
     </script>
   </head>
   <body>
+    <!-- Splash loader — visible from first paint, removed once React hydrates -->
+    <div id="splash" aria-hidden="true">
+      <div class="splash-inner">
+        <svg class="splash-ball" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <radialGradient id="ball-shade" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="55%" stop-color="#f5f5f5" />
+              <stop offset="100%" stop-color="#c8d0e0" />
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="46" fill="url(#ball-shade)" stroke="#1a2138" stroke-width="1.5" />
+          <polygon points="50,4 64,18 50,32 36,18" fill="#1a2138" opacity="0.85" />
+          <polygon points="50,96 64,82 50,68 36,82" fill="#1a2138" opacity="0.85" />
+          <polygon points="4,50 18,36 32,50 18,64" fill="#1a2138" opacity="0.85" />
+          <polygon points="96,50 82,36 68,50 82,64" fill="#1a2138" opacity="0.85" />
+          <polygon points="50,32 64,18 82,36 68,50 82,64 64,82 50,68 36,82 18,64 32,50 18,36 36,18" fill="none" stroke="#1a2138" stroke-width="2" stroke-linejoin="round" />
+        </svg>
+        <div class="splash-title">
+          <span class="splash-fifa">FIFA</span>
+          <span class="splash-wc">WORLD CUP</span>
+          <span class="splash-year">2026</span>
+        </div>
+        <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+        <p class="splash-tagline">Cargando el torneo más grande del mundo…</p>
+      </div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <style>
+      /* Self-contained so it renders even before the CSS bundle arrives */
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: radial-gradient(ellipse at top, #0d1f3c 0%, #05070f 70%);
+        display: grid;
+        place-items: center;
+        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        transition: opacity 0.45s ease, visibility 0.45s;
+      }
+      #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+      #splash .splash-inner { text-align: center; color: #fef7e6; }
+      #splash .splash-ball {
+        width: 84px;
+        height: 84px;
+        margin: 0 auto 1.5rem;
+        filter: drop-shadow(0 12px 30px rgba(74, 222, 128, 0.25));
+        animation: splash-roll 2.4s linear infinite;
+      }
+      @keyframes splash-roll {
+        0%   { transform: rotate(0deg)   translateY(0); }
+        50%  { transform: rotate(180deg) translateY(-10px); }
+        100% { transform: rotate(360deg) translateY(0); }
+      }
+      #splash .splash-title { display: flex; flex-direction: column; align-items: center; line-height: 1; gap: 0.15rem; }
+      #splash .splash-fifa  { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.22em; color: #86efac; }
+      #splash .splash-wc    { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; margin-top: 0.25rem; }
+      #splash .splash-year  { font-size: 2.5rem; font-weight: 900; background: linear-gradient(180deg, #4ade80, #16a34a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      #splash .splash-bar { width: 180px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; margin: 1.25rem auto 0.75rem; }
+      #splash .splash-bar-fill { width: 35%; height: 100%; background: linear-gradient(90deg, #4ade80, #16a34a); border-radius: 99px; animation: splash-bar 1.4s ease-in-out infinite; }
+      @keyframes splash-bar { 0% { transform: translateX(-100%); } 100% { transform: translateX(380%); } }
+      #splash .splash-tagline { font-size: 0.7rem; color: #94a0b8; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.5rem; font-weight: 500; }
+      @media (prefers-reduced-motion: reduce) {
+        #splash .splash-ball, #splash .splash-bar-fill { animation: none; }
+      }
+    </style>
   </body>
 </html>
