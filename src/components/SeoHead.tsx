@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { Locale } from '../i18n/translations';
-import { worldCupMatches } from '../data/matches';
+import { worldCupMatches, getMatchUtcDate } from '../data/matches';
 
 interface SeoHeadProps {
   locale: Locale;
@@ -129,7 +129,7 @@ export function SeoHead({ locale, pageTitle, pageDescription }: SeoHeadProps) {
         '@context': 'https://schema.org',
         '@type': 'SportsEvent',
         name: locale === 'es' ? `Mundial 2026: ${opening.homeTeam} vs ${opening.awayTeam}` : `World Cup 2026: ${opening.homeTeam} vs ${opening.awayTeam}`,
-        startDate: `${opening.date}T${opening.time}:00-05:00`,
+        startDate: getMatchUtcDate(opening).toISOString(),
         eventStatus: 'https://schema.org/EventScheduled',
         eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
         location: { '@type': 'Place', name: opening.venue, address: { '@type': 'PostalAddress', addressLocality: opening.city, addressCountry: opening.country } },
@@ -143,7 +143,7 @@ export function SeoHead({ locale, pageTitle, pageDescription }: SeoHeadProps) {
         '@context': 'https://schema.org',
         '@type': 'SportsEvent',
         name: locale === 'es' ? 'Gran Final del Mundial 2026' : '2026 World Cup Final',
-        startDate: `${final.date}T${final.time}:00-04:00`,
+        startDate: getMatchUtcDate(final).toISOString(),
         eventStatus: 'https://schema.org/EventScheduled',
         eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
         location: { '@type': 'Place', name: final.venue, address: { '@type': 'PostalAddress', addressLocality: final.city, addressCountry: final.country } },

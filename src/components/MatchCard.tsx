@@ -1,6 +1,8 @@
+import { useMemo } from 'react';
 import { Clock, MapPin, Calendar as CalIcon } from 'lucide-react';
 import type { Match } from '../data/matches';
-import { formatTime, formatDateLocalized } from '../lib/format';
+import { getMatchUtcDate, getYmdInTz, getVisitorTimezone } from '../data/matches';
+import { formatMatchTime, formatMatchDate } from '../lib/format';
 import type { Locale } from '../i18n/translations';
 
 interface MatchCardProps {
@@ -50,14 +52,17 @@ function Flag({ src, alt, size = 'md' }: { src?: string; alt: string; size?: 'sm
 
 export function MatchCard({ match, index = 0, variant = 'default', locale }: MatchCardProps) {
   const isFeatured = variant === 'featured';
-  const matchDate = new Date(match.date + 'T00:00:00');
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const isToday = matchDate.getTime() === today.getTime();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const isTomorrow = matchDate.getTime() === tomorrow.getTime();
-  const isPast = matchDate.getTime() < today.getTime();
+  const visitorTz = useMemo(() => getVisitorTimezone(), []);
+  const now = useMemo(() => new Date(), []);
+  const matchUtc = useMemo(() => getMatchUtcDate(match), [match.date, match.time, match.venue]);
+
+  const todayYmd = getYmdInTz(now, visitorTz);
+  const matchYmd = getYmdInTz(matchUtc, visitorTz);
+  const tomorrowYmd = getYmdInTz(new Date(now.getTime() + 24 * 60 * 60 * 1000), visitorTz);
+
+  const isToday = todayYmd === matchYmd;
+  const isTomorrow = tomorrowYmd === matchYmd;
+  const isPast = matchUtc.getTime() < now.getTime();
 
   const stageInfo = getStageInfo(match.stage || 'group');
   const stageLabel = locale === 'es' ? stageInfo.es : stageInfo.en;
@@ -66,7 +71,7 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
     ? locale === 'es' ? 'HOY' : 'TODAY'
     : isTomorrow
       ? locale === 'es' ? 'MAÑANA' : 'TOMORROW'
-      : formatDateLocalized(match.date, locale, { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
+      : formatMatchDate(match, locale, visitorTz, { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
 
   return (
     <article
@@ -105,7 +110,7 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
         </div>
         <div className="flex items-center gap-1 text-cream-100/60 flex-shrink-0">
           <Clock className="w-3.5 h-3.5" />
-          <span className="text-xs font-semibold tabular-nums">{formatTime(match.time, locale)}</span>
+          <span className="text-xs font-semibold tabular-nums">{formatMatchTime(match, locale, visitorTz)}</span>
         </div>
       </div>
 
@@ -144,7 +149,7 @@ export function MatchCard({ match, index = 0, variant = 'default', locale }: Mat
         </div>
         <div className="flex items-center gap-1 text-xs flex-shrink-0">
           <CalIcon className="w-3 h-3 text-pitch-300/60" />
-          <span className="tabular-nums">{formatDateLocalized(match.date, locale, { day: '2-digit', month: 'short' })}</span>
+          <span className="tabular-nums">{formatMatchDate(match, locale, visitorTz, { day: '2-digit', month: 'short' })}</span>
         </div>
       </div>
     </article>

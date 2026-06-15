@@ -1,4 +1,6 @@
 import type { Locale } from '../i18n/translations';
+import { getMatchUtcDate } from '../data/matches';
+import type { Match } from '../data/matches';
 
 export function formatDateLocalized(dateStr: string, locale: Locale, opts?: Intl.DateTimeFormatOptions): string {
   try {
@@ -28,6 +30,34 @@ export function formatTime(time24: string, locale: Locale): string {
     return new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : 'en-US', { hour: 'numeric', minute: '2-digit', hour12: locale === 'en' }).format(date);
   } catch {
     return time24;
+  }
+}
+
+// Format the match kickoff time in the visitor's IANA timezone
+export function formatMatchTime(match: Match, locale: Locale, visitorTz: string): string {
+  try {
+    const utc = getMatchUtcDate(match);
+    return new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : 'en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: locale === 'en',
+      timeZone: visitorTz,
+    }).format(utc);
+  } catch {
+    return match.time;
+  }
+}
+
+// Format the match date in the visitor's IANA timezone
+export function formatMatchDate(match: Match, locale: Locale, visitorTz: string, opts?: Intl.DateTimeFormatOptions): string {
+  try {
+    const utc = getMatchUtcDate(match);
+    return new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : 'en-US', {
+      ...(opts ?? { weekday: 'short', day: 'numeric', month: 'short' }),
+      timeZone: visitorTz,
+    }).format(utc);
+  } catch {
+    return match.date;
   }
 }
 

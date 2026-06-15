@@ -226,33 +226,96 @@ export const worldCupMatches: Match[] = [
   { id: 104, homeTeam: 'Ganador Semifinal 1', homeTeamFlag: '', awayTeam: 'Ganador Semifinal 2', awayTeamFlag: '', date: '2026-07-19', time: '13:00', venue: 'MetLife Stadium', venueImage: venueImages['MetLife Stadium'], city: 'Nueva York', country: 'USA', stage: 'final' },
 ];
 
-// Get matches for today or the next 7 days
-export function getUpcomingMatches(days: number = 7): Match[] {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const endDate = new Date(today);
-  endDate.setDate(endDate.getDate() + days);
+// IANA timezone per venue (16 unique stadiums)
+const VENUE_TIMEZONE: Record<string, string> = {
+  'Estadio Azteca': 'America/Mexico_City',
+  'Estadio Akron': 'America/Mexico_City',
+  'Estadio Monterrey': 'America/Monterrey',
+  'SoFi Stadium': 'America/Los_Angeles',
+  'MetLife Stadium': 'America/New_York',
+  'AT&T Stadium': 'America/Chicago',
+  'NRG Stadium': 'America/Chicago',
+  'Hard Rock Stadium': 'America/New_York',
+  'Lumen Field': 'America/Los_Angeles',
+  "Levi's Stadium": 'America/Los_Angeles',
+  'Gillette Stadium': 'America/New_York',
+  'BC Place': 'America/Vancouver',
+  'BMO Field': 'America/Toronto',
+  'Mercedes-Benz Stadium': 'America/New_York',
+  'Arrowhead Stadium': 'America/Chicago',
+  'Lincoln Financial Field': 'America/New_York',
+};
 
-  return worldCupMatches.filter(match => {
-    const matchDate = new Date(match.date);
-    return matchDate >= today && matchDate <= endDate;
-  }).sort((a, b) => {
-    const dateA = new Date(`${a.date}T${a.time}`);
-    const dateB = new Date(`${b.date}T${b.time}`);
-    return dateA.getTime() - dateB.getTime();
-  });
+// UTC offset (in minutes) during June–July 2026.
+// US/Canada: DST active (2nd Sun Mar → 1st Sun Nov). Mexico: abolished DST in 2022, fixed UTC-6.
+const VENUE_TZ_OFFSET_MIN: Record<string, number> = {
+  'America/Mexico_City': 360,    // UTC-6
+  'America/Monterrey': 360,      // UTC-6
+  'America/New_York': 240,       // UTC-4 (EDT)
+  'America/Chicago': 300,        // UTC-5 (CDT)
+  'America/Los_Angeles': 420,    // UTC-7 (PDT)
+  'America/Toronto': 240,        // UTC-4 (EDT)
+  'America/Vancouver': 420,      // UTC-7 (PDT)
+};
+
+export function getVenueTimezone(venue: string): string {
+  return VENUE_TIMEZONE[venue] || 'UTC';
+}
+
+// Build a UTC Date from a match's local time at the venue
+export function getMatchUtcDate(match: Pick<Match, 'date' | 'time' | 'venue'>): Date {
+  const [y, m, d] = match.date.split('-').map(Number);
+  const [h, min] = match.time.split(':').map(Number);
+  const offsetMin = VENUE_TZ_OFFSET_MIN[getVenueTimezone(match.venue)] ?? 0;
+  return new Date(Date.UTC(y, m - 1, d, h, min) + offsetMin * 60_000);
+}
+
+// Format a Date as YYYY-MM-DD in a target IANA timezone
+export function getYmdInTz(date: Date, timeZone: string): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const y = parts.find(p => p.type === 'year')?.value;
+  const mo = parts.find(p => p.type === 'month')?.value;
+  const d = parts.find(p => p.type === 'day')?.value;
+  return `${y}-${mo}-${d}`;
+}
+
+// Get visitor's IANA timezone (browser)
+export function getVisitorTimezone(): string {
+  if (typeof Intl === 'undefined') return 'UTC';
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  } catch {
+    return 'UTC';
+  }
+}
+
+// Get matches between now and now+days, sorted by actual kickoff time (UTC)
+export function getUpcomingMatches(days: number = 7): Match[] {
+  const now = Date.now();
+  const endMs = now + days * 24 * 60 * 60 * 1000;
+
+  return worldCupMatches
+    .filter(m => {
+      const t = getMatchUtcDate(m).getTime();
+      return t >= now && t <= endMs;
+    })
+    .sort((a, b) => getMatchUtcDate(a).getTime() - getMatchUtcDate(b).getTime());
 }
 
 export function generateICS(matches: Match[]): string {
-  const formatDate = (dateStr: string, timeStr: string): string => {
-    const [year, month, day] = dateStr.split('-');
-    const [hour, minute] = timeStr.split(':');
-    return `${year}${month}${day}T${hour}${minute}00`;
-  };
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const toUtc = (date: Date) =>
+    `${date.getUTCFullYear()}${pad(date.getUTCMonth() + 1)}${pad(date.getUTCDate())}` +
+    `T${pad(date.getUTCHours())}${pad(date.getUTCMinutes())}${pad(date.getUTCSeconds())}Z`;
 
   const icsEvents = matches.map(match => {
-    const dtStart = formatDate(match.date, match.time);
-    const dtEnd = formatDate(match.date, match.time.split(':').map((v, i) => i === 0 ? String(parseInt(v) + 2).padStart(2, '0') : v).join(':'));
+    const start = getMatchUtcDate(match);
+    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
     const location = `${match.venue}, ${match.city}`;
     const summary = match.group
       ? `Mundial 2026 - Grupo ${match.group}: ${match.homeTeam} vs ${match.awayTeam}`
@@ -260,8 +323,8 @@ export function generateICS(matches: Match[]): string {
     const description = `${match.homeTeam} vs ${match.awayTeam} - ${match.venue}, ${match.city}${match.group ? ` - Grupo ${match.group}` : ''}`;
 
     return `BEGIN:VEVENT
-DTSTART:${dtStart}
-DTEND:${dtEnd}
+DTSTART:${toUtc(start)}
+DTEND:${toUtc(end)}
 SUMMARY:${summary}
 DESCRIPTION:${description}
 LOCATION:${location}
@@ -275,7 +338,6 @@ PRODID:-//FIFA World Cup 2026//NONSGML v1.0//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Mundial FIFA 2026
-X-WR-TIMEZONE:America/New_York
 ${icsEvents}
 END:VCALENDAR`;
 }
