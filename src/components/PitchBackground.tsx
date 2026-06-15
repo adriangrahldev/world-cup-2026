@@ -11,7 +11,7 @@ export function PitchBackground() {
         fill="none"
         preserveAspectRatio="xMidYMid meet"
       >
-        <ellipse cx="600" cy="300" rx="560" ry="260" stroke="#4ade80" strokeWidth="1" />
+        <rect x="40" y="40" width="1120" height="520" stroke="#4ade80" strokeWidth="1" />
         <line x1="40" y1="300" x2="1160" y2="300" stroke="#4ade80" strokeWidth="1" />
         <circle cx="600" cy="300" r="74" stroke="#4ade80" strokeWidth="1" />
         <rect x="40" y="210" width="92" height="180" stroke="#4ade80" strokeWidth="1" />
