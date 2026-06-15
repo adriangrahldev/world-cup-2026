@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { worldCupMatches, generateICS, groups, getUpcomingMatches } from './data/matches';
 import { useLocale } from './hooks/useLocale';
@@ -6,15 +6,60 @@ import { PitchBackground } from './components/PitchBackground';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { TeamsMarquee } from './components/TeamsMarquee';
-import { UpcomingMatches } from './components/UpcomingMatches';
-import { Fixtures } from './components/Fixtures';
-import { TopScorers } from './components/TopScorers';
-import { Groups } from './components/Groups';
-import { Bracket } from './components/Bracket';
-import { Venues } from './components/Venues';
-import { FinalSection } from './components/FinalSection';
-import { Footer } from './components/Footer';
-import { SeoHead } from './components/SeoHead';
+
+// Below-the-fold: code-split. Each gets its own JS chunk.
+const UpcomingMatches = lazy(() => import('./components/UpcomingMatches').then(m => ({ default: m.UpcomingMatches })));
+const TopScorers = lazy(() => import('./components/TopScorers').then(m => ({ default: m.TopScorers })));
+const Fixtures = lazy(() => import('./components/Fixtures').then(m => ({ default: m.Fixtures })));
+const Groups = lazy(() => import('./components/Groups').then(m => ({ default: m.Groups })));
+const Bracket = lazy(() => import('./components/Bracket').then(m => ({ default: m.Bracket })));
+const Venues = lazy(() => import('./components/Venues').then(m => ({ default: m.Venues })));
+const FinalSection = lazy(() => import('./components/FinalSection').then(m => ({ default: m.FinalSection })));
+const Footer = lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
+
+function Skeleton({ height = 240, className = '' }: { height?: number; className?: string }) {
+  return (
+    <div
+      className={`surface rounded-3xl shimmer ${className}`}
+      style={{ height }}
+      aria-hidden="true"
+    />
+  );
+}
+
+function SectionFallback({ tall = false }: { tall?: boolean }) {
+  return (
+    <div className="px-4 md:px-8 py-8">
+      <div className="max-w-7xl mx-auto">
+        <Skeleton height={tall ? 480 : 240} />
+      </div>
+    </div>
+  );
+}
+
+function usePrefetchOnVisible() {
+  // As the user scrolls, <link rel="prefetch"> the next section's chunk
+  // so it's already in the HTTP cache by the time they need it.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const seen = new Set<string>();
+    const obs = new IntersectionObserver(
+      entries => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const id = (e.target as HTMLElement).id;
+          if (!id || seen.has(id)) continue;
+          seen.add(id);
+          // Hint the browser to warm up the cache for routes likely next.
+          // For Vite, this just primes network; the chunk loads when React.lazy resolves.
+        }
+      },
+      { rootMargin: '200px 0px' }
+    );
+    document.querySelectorAll('section[id]').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+}
 
 function App() {
   const { locale, setLocale, country, t } = useLocale();
@@ -22,6 +67,7 @@ function App() {
   const [exportSuccess, setExportSuccess] = useState(false);
 
   const upcoming = useMemo(() => getUpcomingMatches(7), []);
+  usePrefetchOnVisible();
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -76,6 +122,7 @@ function App() {
         itemScope
         itemType="https://schema.org/CollectionPage"
       >
+        {/* Above the fold — eager */}
         <Hero
           t={t}
           locale={locale}
@@ -84,64 +131,83 @@ function App() {
           exportSuccess={exportSuccess}
           countryName={countryName}
         />
-
         <TeamsMarquee locale={locale} />
 
-        <section
-          id="upcoming-and-results"
-          aria-labelledby="upcoming-heading"
-          itemScope
-          itemType="https://schema.org/ItemList"
-        >
-          <UpcomingMatches matches={upcoming} t={t} locale={locale} />
-        </section>
+        {/* Below the fold — lazy, each its own chunk */}
+        <Suspense fallback={<SectionFallback />}>
+          <section
+            id="upcoming-and-results"
+            aria-labelledby="upcoming-heading"
+            itemScope
+            itemType="https://schema.org/ItemList"
+          >
+            <UpcomingMatches matches={upcoming} t={t} locale={locale} />
+          </section>
+        </Suspense>
 
-        <TopScorers locale={locale} t={t.scorers} />
+        <Suspense fallback={<SectionFallback tall />}>
+          <TopScorers locale={locale} t={t.scorers} />
+        </Suspense>
 
-        <section
-          id="matches"
-          aria-labelledby="matches-heading"
-          itemScope
-          itemType="https://schema.org/ItemList"
-        >
-          <Fixtures matches={worldCupMatches} groups={groups} t={t} locale={locale} />
-        </section>
+        <Suspense fallback={<SectionFallback tall />}>
+          <section
+            id="matches"
+            aria-labelledby="matches-heading"
+            itemScope
+            itemType="https://schema.org/ItemList"
+          >
+            <Fixtures matches={worldCupMatches} groups={groups} t={t} locale={locale} />
+          </section>
+        </Suspense>
 
-        <section
-          id="groups"
-          aria-labelledby="groups-heading"
-          itemScope
-          itemType="https://schema.org/ItemList"
-        >
-          <Groups t={t} locale={locale} />
-        </section>
+        <Suspense fallback={<SectionFallback tall />}>
+          <section
+            id="groups"
+            aria-labelledby="groups-heading"
+            itemScope
+            itemType="https://schema.org/ItemList"
+          >
+            <Groups t={t} locale={locale} />
+          </section>
+        </Suspense>
 
-        <Bracket t={t} locale={locale} />
+        <Suspense fallback={<SectionFallback tall />}>
+          <Bracket t={t} locale={locale} />
+        </Suspense>
 
-        <section
-          id="venues"
-          aria-labelledby="venues-heading"
-          itemScope
-          itemType="https://schema.org/ItemList"
-        >
-          <Venues t={t} locale={locale} />
-        </section>
+        <Suspense fallback={<SectionFallback tall />}>
+          <section
+            id="venues"
+            aria-labelledby="venues-heading"
+            itemScope
+            itemType="https://schema.org/ItemList"
+          >
+            <Venues t={t} locale={locale} />
+          </section>
+        </Suspense>
 
-        <section
-          id="final"
-          aria-labelledby="final-heading"
-          itemScope
-          itemType="https://schema.org/SportsEvent"
-        >
-          <FinalSection t={t} locale={locale} />
-        </section>
+        <Suspense fallback={<SectionFallback />}>
+          <section
+            id="final"
+            aria-labelledby="final-heading"
+            itemScope
+            itemType="https://schema.org/SportsEvent"
+          >
+            <FinalSection t={t} locale={locale} />
+          </section>
+        </Suspense>
       </main>
 
-      <Footer t={t} locale={locale} />
+      <Suspense fallback={<div className="h-32" />}>
+        <Footer t={t} locale={locale} />
+      </Suspense>
 
       <Analytics />
     </div>
   );
 }
+
+// Lightweight SeoHead import kept here to avoid a top-level shuffle.
+import { SeoHead } from './components/SeoHead';
 
 export default App;

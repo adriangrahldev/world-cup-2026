@@ -66,22 +66,22 @@ export const teamFlags: Record<string, string> = {
 };
 
 export const venueImages: Record<string, string> = {
-  'Estadio Azteca': 'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&q=80',
-  'Estadio Akron': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-  'SoFi Stadium': 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&q=80',
-  'MetLife Stadium': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-  'AT&T Stadium': 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80',
-  'NRG Stadium': 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80',
-  'Hard Rock Stadium': 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80',
-  'Lumen Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-  "Levi's Stadium": 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-  'Gillette Stadium': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-  'BC Place': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-  'BMO Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-  'Mercedes-Benz Stadium': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-  'Arrowhead Stadium': 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80',
-  'Lincoln Financial Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-  'Estadio Monterrey': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
+  'Estadio Azteca': 'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=600&auto=format&q=70&fit=crop',
+  'Estadio Akron': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
+  'SoFi Stadium': 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=600&auto=format&q=70&fit=crop',
+  'MetLife Stadium': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
+  'AT&T Stadium': 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=600&auto=format&q=70&fit=crop',
+  'NRG Stadium': 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&auto=format&q=70&fit=crop',
+  'Hard Rock Stadium': 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&auto=format&q=70&fit=crop',
+  'Lumen Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
+  "Levi's Stadium": 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
+  'Gillette Stadium': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
+  'BC Place': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
+  'BMO Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
+  'Mercedes-Benz Stadium': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
+  'Arrowhead Stadium': 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&auto=format&q=70&fit=crop',
+  'Lincoln Financial Field': 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&auto=format&q=70&fit=crop',
+  'Estadio Monterrey': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&q=70&fit=crop',
 };
 
 export const worldCupMatches: Match[] = [

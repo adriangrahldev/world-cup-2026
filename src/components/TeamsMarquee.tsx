@@ -20,9 +20,13 @@ export function TeamsMarquee({ locale }: TeamsMarqueeProps) {
       <div className="relative">
         <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-night-950 to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-night-950 to-transparent z-10 pointer-events-none" />
-        <div className="flex gap-4 anim-marquee w-max">
+        <div className="flex gap-4 anim-marquee w-max" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 40px' }}>
           {half.map((team, i) => {
             const flag = teamFlags[team];
+            // First copy = above-fold-ish (kinda, since marquee is right under Hero).
+            // Give the first 16 unique teams a higher priority; rest low + lazy.
+            const isFirstHalf = i < TEAMS.length;
+            const inFirstBatch = isFirstHalf && i < 16;
             return (
               <div
                 key={`${team}-${i}`}
@@ -32,7 +36,11 @@ export function TeamsMarquee({ locale }: TeamsMarqueeProps) {
                   <img
                     src={flag}
                     alt={team}
-                    loading="lazy"
+                    loading={inFirstBatch ? 'eager' : 'lazy'}
+                    decoding="async"
+                    fetchPriority={inFirstBatch ? 'high' : 'low'}
+                    width={24}
+                    height={16}
                     className="w-6 h-4 rounded-sm object-cover ring-1 ring-white/10"
                   />
                 )}
